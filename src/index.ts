@@ -23,7 +23,30 @@ createConnection({
 
     await connection.manager.save(photo);
 
-    let savedPhotos = await connection.manager.find(Photo);
-    console.log("All photos from the db: ", savedPhotos);
+    let photoRepository = connection.getRepository(Photo);
+
+    await photoRepository.save(photo);
+    console.log("Photo has been saved");
+
+    let allPhotos = await photoRepository.find();
+    console.log("All photos from the db: ", allPhotos);
+
+    let firstPhoto = await photoRepository.findOne(1);
+    console.log("First photo from the db: ", firstPhoto);
+
+    let meAndBearsPhoto = await photoRepository.findOne({
+      name: "Me and bears",
+    });
+    console.log("Me and Bears photo from the db: ", meAndBearsPhoto);
+
+    let allViewedPhotos = await photoRepository.find({ views: 1 });
+    console.log("All viewed photos: ", allViewedPhotos);
+
+    let allPublishedPhotos = await photoRepository.find({ isPublished: true });
+    console.log("All published photos: ", allPublishedPhotos);
+
+    let [allPhotosCount, photosCount] = await photoRepository.findAndCount();
+    console.log("All Photos Count: ", allPhotosCount);
+    console.log("Photos count: ", photosCount);
   })
   .catch((error) => console.log(error));
