@@ -25,8 +25,7 @@ createConnection({
 
     let photoRepository = connection.getRepository(Photo);
 
-    let photoToUpdate = await photoRepository.findOne(1);
-    photoToUpdate.name = "Me, my friends and polar bears";
-    await photoRepository.save(photoToUpdate);
+    let photoToRemove = await photoRepository.findOne(1);
+    await photoRepository.remove(photoToRemove);
   })
   .catch((error) => console.log(error));
